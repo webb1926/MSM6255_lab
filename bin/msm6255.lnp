@@ -1,0 +1,9 @@
+".\bin\font.obj",
+".\bin\layout.obj",
+".\bin\lcd_func.obj",
+".\bin\lcd_init.obj",
+".\bin\main.obj",
+".\bin\lcd_asm.obj",
+"C:\Keil\C51\LIB\C51S.LIB" 
+TO ".\bin\msm6255" 
+PRINT(".\lst\msm6255.m51") RAMSIZE(256) 

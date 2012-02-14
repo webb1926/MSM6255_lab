@@ -1,0 +1,49 @@
+C51 COMPILER V9.02   MAIN                                                                  02/14/2012 22:33:57 PAGE 1   
+
+
+C51 COMPILER V9.02, COMPILATION OF MODULE MAIN
+NO OBJECT MODULE REQUESTED
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE src\main.c BROWSE DEBUG OBJECTEXTEND PRINT(.\lst\main.lst) TABS(2) SRC(.\bi
+                    -n\main.SRC)
+
+line level    source
+
+   1          #include<reg51.h>
+   2          #include <intrins.h>  
+   3          #define byte unsigned char
+   4          /*****************************
+   5          extern
+   6          *****************************/
+   7          extern void clear_screen();
+   8          extern void init_lcd();
+   9          extern void print_byte(byte a,byte xdata *ptr);      //²Õ»y°Æµ{¦¡ assembly subroutine
+  10          /*******************************/
+  11          void main(void)                   
+  12          {
+  13   1        byte xdata *ptr;
+  14   1        init_lcd();
+  15   1        clear_screen();
+  16   1      
+  17   1        ptr=900;
+  18   1        print_byte(0x55,ptr);
+  19   1      
+  20   1        for(;;)
+  21   1        { 
+  22   2          _nop_();
+  23   2        }
+  24   1      }
+  25            
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     18    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

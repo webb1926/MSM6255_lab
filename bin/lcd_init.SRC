@@ -1,0 +1,373 @@
+; .\bin\lcd_init.SRC generated from: src\lcd_init.c
+; COMPILER INVOKED BY:
+;        C:\Keil\C51\BIN\C51.EXE src\lcd_init.c BROWSE DEBUG OBJECTEXTEND PRINT(.\lst\lcd_init.lst) TABS(2) SRC(.\bin\lcd_init.SRC)
+
+$NOMOD51
+
+NAME	LCD_INIT
+
+P0	DATA	080H
+P1	DATA	090H
+P2	DATA	0A0H
+P3	DATA	0B0H
+T0	BIT	0B0H.4
+AC	BIT	0D0H.6
+T1	BIT	0B0H.5
+EA	BIT	0A8H.7
+IE	DATA	0A8H
+P3_2	BIT	0B0H.2
+RD	BIT	0B0H.7
+ES	BIT	0A8H.4
+IP	DATA	0B8H
+RI	BIT	098H.0
+INT0	BIT	0B0H.2
+CY	BIT	0D0H.7
+TI	BIT	098H.1
+INT1	BIT	0B0H.3
+PS	BIT	0B8H.4
+SP	DATA	081H
+OV	BIT	0D0H.2
+WR	BIT	0B0H.6
+SBUF	DATA	099H
+PCON	DATA	087H
+SCON	DATA	098H
+TMOD	DATA	089H
+TCON	DATA	088H
+IE0	BIT	088H.1
+IE1	BIT	088H.3
+B	DATA	0F0H
+ACC	DATA	0E0H
+ET0	BIT	0A8H.1
+ET1	BIT	0A8H.3
+TF0	BIT	088H.5
+TF1	BIT	088H.7
+RB8	BIT	098H.2
+TH0	DATA	08CH
+EX0	BIT	0A8H.0
+IT0	BIT	088H.0
+TH1	DATA	08DH
+TB8	BIT	098H.3
+EX1	BIT	0A8H.2
+IT1	BIT	088H.2
+P	BIT	0D0H.0
+SM0	BIT	098H.7
+TL0	DATA	08AH
+SM1	BIT	098H.6
+TL1	DATA	08BH
+SM2	BIT	098H.5
+PT0	BIT	0B8H.1
+PT1	BIT	0B8H.3
+RS0	BIT	0D0H.3
+TR0	BIT	088H.4
+RS1	BIT	0D0H.4
+TR1	BIT	088H.6
+PX0	BIT	0B8H.0
+PX1	BIT	0B8H.2
+DPH	DATA	083H
+DPL	DATA	082H
+REN	BIT	098H.4
+RXD	BIT	0B0H.0
+TXD	BIT	0B0H.1
+F0	BIT	0D0H.5
+PSW	DATA	0D0H
+?PR?_setReg?LCD_INIT SEGMENT CODE 
+?PR?init_lcd?LCD_INIT                    SEGMENT CODE 
+?PR?clear_screen?LCD_INIT                SEGMENT CODE 
+?C_INITSEG           SEGMENT CODE 
+?ID?LCD_INIT         SEGMENT IDATA 
+?DT?LCD_INIT         SEGMENT DATA 
+	PUBLIC	ptr
+	PUBLIC	PR_value
+	PUBLIC	IR_value
+	PUBLIC	lcdc_addr
+	PUBLIC	lcdc_data
+	PUBLIC	clear_screen
+	PUBLIC	init_lcd
+	PUBLIC	_setReg
+
+	XSEG  AT  00H
+      lcdc_data:   DS   1
+
+	XSEG  AT  01H
+      lcdc_addr:   DS   1
+
+	RSEG  ?ID?LCD_INIT
+       IR_value:   DS   2
+       PR_value:   DS   2
+
+	RSEG  ?DT?LCD_INIT
+            ptr:   DS   2
+
+	RSEG  ?C_INITSEG
+	DB	002H
+	DB	ptr
+	DW	00000H
+
+; #include<reg51.h>
+; #define byte unsigned char
+; sbit P3_2	= P3^2;
+; #define DIEN P3_2
+; int idata IR_value,PR_value;
+; byte xdata lcdc_addr _at_ 0x01; // used to send command
+; byte xdata lcdc_data _at_ 0x00; // used to send command parameter
+; 
+; unsigned char xdata *ptr = 0x00;
+; 
+; void init_lcd();
+; void setReg(int a,int b);
+; void clear_screen();
+; /**********************************************************************************
+; 	設定msm6255暫存器的函數
+; **********************************************************************************/
+; void setReg(int a,int b)
+
+	RSEG  ?PR?_setReg?LCD_INIT
+L?0004:
+	USING	0
+L?0005:
+	CLR  	A
+	INC  	R0
+	MOV  	@R0,A
+	INC  	R0
+	MOV  	@R0,A
+	INC  	R7
+_setReg:
+			; SOURCE LINE # 17
+;---- Variable 'b?041' assigned to Register 'R4/R5' ----
+;---- Variable 'a?040' assigned to Register 'R6/R7' ----
+; {
+			; SOURCE LINE # 18
+; 	DIEN = 1;
+			; SOURCE LINE # 19
+	SETB 	P3_2
+; 	P1=0xF4; 	
+			; SOURCE LINE # 20
+	MOV  	P1,#0F4H
+; 	lcdc_addr=a;	
+			; SOURCE LINE # 21
+	MOV  	DPTR,#lcdc_addr
+	MOV  	A,R7
+	MOVX 	@DPTR,A
+; 	lcdc_data=b;
+			; SOURCE LINE # 22
+	MOV  	DPTR,#lcdc_data
+	MOV  	A,R5
+	MOVX 	@DPTR,A
+; }
+			; SOURCE LINE # 23
+	RET  	
+; END OF _setReg
+
+; /**********************************************************************************
+; 	初始化msm6255
+; 	by external memory address 0x00 and 0x01 (2011/11/3  comment by Lu)
+; **********************************************************************************/
+; void init_lcd()
+
+	RSEG  ?PR?init_lcd?LCD_INIT
+init_lcd:
+	USING	0
+			; SOURCE LINE # 28
+; {
+			; SOURCE LINE # 29
+; 
+; 	P3=0xFF;	
+			; SOURCE LINE # 31
+	MOV  	P3,#0FFH
+; 	P1=0xF4;
+			; SOURCE LINE # 32
+	MOV  	P1,#0F4H
+; 
+; 	IR_value=0x00;	//MR			
+			; SOURCE LINE # 34
+	CLR  	A
+	MOV  	R0,#LOW (IR_value)
+	MOV  	@R0,A
+	INC  	R0
+	MOV  	@R0,A
+; 	PR_value=0x1B;
+			; SOURCE LINE # 35
+	INC  	R0
+	MOV  	@R0,A
+	INC  	R0
+	MOV  	@R0,#01BH
+; 	setReg(IR_value,PR_value);
+			; SOURCE LINE # 36
+	MOV  	R5,#01BH
+	MOV  	R4,A
+	MOV  	R7,A
+	MOV  	R6,A
+	LCALL	_setReg
+; 	IR_value=0x01;	//RR	
+			; SOURCE LINE # 37
+	MOV  	R0,#LOW (IR_value)
+	MOV  	@R0,#00H
+	INC  	R0
+	MOV  	@R0,#01H
+; 	PR_value=0x07;
+			; SOURCE LINE # 38
+	INC  	R0
+	MOV  	@R0,#00H
+	INC  	R0
+	MOV  	@R0,#07H
+; 	setReg(IR_value,PR_value);
+			; SOURCE LINE # 39
+	MOV  	R5,#07H
+	INC  	R7
+	LCALL	_setReg
+; 	IR_value=0x02;	//HNR	
+			; SOURCE LINE # 40
+	MOV  	R0,#LOW (IR_value)
+	MOV  	@R0,#00H
+	INC  	R0
+	MOV  	@R0,#02H
+; 	PR_value=79;		//80bytes	= 640
+			; SOURCE LINE # 41
+	INC  	R0
+	MOV  	@R0,#00H
+	INC  	R0
+	MOV  	@R0,#04FH
+; 	setReg(IR_value,PR_value);
+			; SOURCE LINE # 42
+	MOV  	R5,#04FH
+	INC  	R7
+	LCALL	_setReg
+; 	IR_value=0x03;	//DVR		
+			; SOURCE LINE # 43
+	MOV  	R0,#LOW (IR_value)
+	MOV  	@R0,#00H
+	INC  	R0
+	MOV  	@R0,#03H
+; 	PR_value=239;		//239 = 2*240 = 480
+			; SOURCE LINE # 44
+	INC  	R0
+	MOV  	@R0,#00H
+	INC  	R0
+	MOV  	@R0,#0EFH
+; 	setReg(IR_value,PR_value);
+			; SOURCE LINE # 45
+	MOV  	R5,#0EFH
+	INC  	R7
+	LCALL	_setReg
+; 	IR_value=0x04;	// 		
+			; SOURCE LINE # 46
+	MOV  	R0,#LOW (IR_value)
+	MOV  	@R0,#00H
+	INC  	R0
+	MOV  	@R0,#04H
+; 	PR_value=0x11;	//1-1
+			; SOURCE LINE # 47
+	INC  	R0
+	MOV  	@R0,#00H
+	INC  	R0
+	MOV  	@R0,#011H
+; 	setReg(IR_value,PR_value);
+			; SOURCE LINE # 48
+	MOV  	R5,#011H
+	INC  	R7
+	LCALL	_setReg
+; 	IR_value=0x05;	//SLR		
+			; SOURCE LINE # 49
+	MOV  	R0,#LOW (IR_value)
+	MOV  	@R0,#00H
+	INC  	R0
+	MOV  	@R0,#05H
+; 	PR_value=0x00;
+			; SOURCE LINE # 50
+	CLR  	A
+	INC  	R0
+	MOV  	@R0,A
+	INC  	R0
+	MOV  	@R0,A
+; 	setReg(IR_value,PR_value);
+			; SOURCE LINE # 51
+	MOV  	R5,A
+	INC  	R7
+	LCALL	_setReg
+; 	IR_value=0x06;	//SUR		
+			; SOURCE LINE # 52
+	MOV  	R0,#LOW (IR_value)
+	MOV  	@R0,#00H
+	INC  	R0
+	MOV  	@R0,#06H
+; 	PR_value=0x00;
+			; SOURCE LINE # 53
+; 	setReg(IR_value,PR_value);
+			; SOURCE LINE # 54
+	LCALL	L?0004
+; 	IR_value=0x07;	//CLR		
+			; SOURCE LINE # 55
+	MOV  	R0,#LOW (IR_value)
+	MOV  	@R0,#00H
+	INC  	R0
+	MOV  	@R0,#07H
+; 	PR_value=0x00;
+			; SOURCE LINE # 56
+; 	setReg(IR_value,PR_value);
+			; SOURCE LINE # 57
+	LCALL	L?0004
+; 	IR_value=0x08;	//CUR	
+			; SOURCE LINE # 58
+	MOV  	R0,#LOW (IR_value)
+	MOV  	@R0,#00H
+	INC  	R0
+	MOV  	@R0,#08H
+; 	PR_value=0x00;
+			; SOURCE LINE # 59
+; 	setReg(IR_value,PR_value);
+			; SOURCE LINE # 60
+	LCALL	L?0005
+; 
+;   P1=0xF4; 									
+			; SOURCE LINE # 62
+	MOV  	P1,#0F4H
+; }
+			; SOURCE LINE # 63
+	RET  	
+; END OF init_lcd
+
+; 
+; void clear_screen()
+
+	RSEG  ?PR?clear_screen?LCD_INIT
+clear_screen:
+	USING	0
+			; SOURCE LINE # 65
+; {
+			; SOURCE LINE # 66
+; 		
+; 	//unsigned int idata i;	
+; 	//ptr=0;	
+; 	#pragma asm
+;   mov P1,#0f4h
+	  mov P1,#0f4h
+; 	mov R2,#150
+	  mov R2,#150
+; 	mov R1,#0
+	  mov R1,#0
+; 	MOV a,#0ffh
+	  MOV a,#0ffh
+; 	mov dptr,#0
+	  mov dptr,#0
+; 	CLRSCN:
+	  CLRSCN:
+;  	CLR P3.2
+	  CLR P3.2
+; 	movx @dptr,a
+	  movx @dptr,a
+; 	;
+	  ;
+; 	inc dptr
+	  inc dptr
+; 	djnz r2,CLRSCN
+	  djnz r2,CLRSCN
+; 	djnz r1,CLRSCN
+	  djnz r1,CLRSCN
+; 	SETB P3.2
+	  SETB P3.2
+; 	#pragma endasm
+; }				; SOURCE LINE # 85
+	RET  	
+; END OF clear_screen
+
+	END

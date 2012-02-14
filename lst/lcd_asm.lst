@@ -1,0 +1,77 @@
+A51 MACRO ASSEMBLER  LCD_ASM                                                              02/14/2012 22:33:57 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02
+OBJECT MODULE PLACED IN .\bin\lcd_asm.obj
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE src\lcd_asm.a SET(SMALL) DEBUG PRINT(.\lst\lcd_asm.lst) OBJECT(.\bin\lcd_a
+                      sm.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     NAME LCD
+                       2     ;﹚竡functioncode segment嘿
+                       3     ?PR?FUNCTION?LCD        SEGMENT CODE
+----                   4                     RSEG    ?PR?FUNCTION?LCD
+                       5     ;﹚竡functiondata segment嘿
+                       6     ;?DT?FUNCTION?LCD       SEGMENT DATA OVERLAYABLE
+                       7     ;               RSEG    ?DT?FUNCTION?LCD
+                       8     ;Var_a  DS      2       ;2bytevar_a(碞琌cいint)
+                       9     ;Var_b  DS      1       ;char
+                      10     ;﹚竡functionbit segment嘿
+                      11     ;?BI?FUNCTION?LCD       SEGMENT BIT OVERLAYABLE
+                      12     ;               RSEG    ?BI?FUNCTION?MODULE
+                      13     ;Var_c  DBIT    1       ;bit var_c
+                      14     ;Var_d  DBIT    1       ;bit var_d
+                      15     ;﹚竡與㊣function
+                      16     PUBLIC  _print_byte     ;⊿Τま把计
+                      17     ;PUBLIC _functionName   ;Τま把计
+                      18     ;舱粂い璶ノcfunction璶
+                      19     ;EXTERN CODE (_function)
+                      20     
+----                  21                     RSEG    ?PR?FUNCTION?LCD
+                      22                     USING 0
+0000 EF               23     _print_byte:    mov     a,r7    ;r7 , r4r5
+                      24                     ;mov    a,r1
+0001 8C83             25                     mov     dph,r4
+0003 8D82             26                     mov     dpl,r5
+                      27                     
+0005 C2B2             28                     clr     P3.2
+                      29                     ;mov    a,#000h
+0007 F0               30                     movx    @dptr,a
+                      31                     
+0008 A3               32                     inc     dptr
+                      33     
+0009 C2B2             34                     clr     P3.2
+                      35                     ;mov    a,#0f0h
+000B F0               36                     movx    @dptr,a
+000C A3               37                     inc     dptr
+                      38     
+000D C2B2             39                     clr     P3.2
+                      40                     ;mov    a,#0f0h
+000F F0               41                     movx    @dptr,a
+                      42     
+0010 D2B2             43                     setb    P3.2
+0012 22               44                     ret
+                      45     END     
+                             
+                             
+A51 MACRO ASSEMBLER  LCD_ASM                                                              02/14/2012 22:33:57 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+?PR?FUNCTION?LCD .  C SEG    0013H       REL=UNIT
+DPH. . . . . . . .  D ADDR   0083H   A   
+DPL. . . . . . . .  D ADDR   0082H   A   
+LCD. . . . . . . .  N NUMB   -----       
+P3 . . . . . . . .  D ADDR   00B0H   A   
+_PRINT_BYTE. . . .  C ADDR   0000H   R   SEG=?PR?FUNCTION?LCD
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

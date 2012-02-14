@@ -1,0 +1,127 @@
+; .\bin\main.SRC generated from: src\main.c
+; COMPILER INVOKED BY:
+;        C:\Keil\C51\BIN\C51.EXE src\main.c BROWSE DEBUG OBJECTEXTEND PRINT(.\lst\main.lst) TABS(2) SRC(.\bin\main.SRC)
+
+$NOMOD51
+
+NAME	MAIN
+
+P0	DATA	080H
+P1	DATA	090H
+P2	DATA	0A0H
+P3	DATA	0B0H
+T0	BIT	0B0H.4
+AC	BIT	0D0H.6
+T1	BIT	0B0H.5
+EA	BIT	0A8H.7
+IE	DATA	0A8H
+RD	BIT	0B0H.7
+ES	BIT	0A8H.4
+IP	DATA	0B8H
+RI	BIT	098H.0
+INT0	BIT	0B0H.2
+CY	BIT	0D0H.7
+TI	BIT	098H.1
+INT1	BIT	0B0H.3
+PS	BIT	0B8H.4
+SP	DATA	081H
+OV	BIT	0D0H.2
+WR	BIT	0B0H.6
+SBUF	DATA	099H
+PCON	DATA	087H
+SCON	DATA	098H
+TMOD	DATA	089H
+TCON	DATA	088H
+IE0	BIT	088H.1
+IE1	BIT	088H.3
+B	DATA	0F0H
+ACC	DATA	0E0H
+ET0	BIT	0A8H.1
+ET1	BIT	0A8H.3
+TF0	BIT	088H.5
+TF1	BIT	088H.7
+RB8	BIT	098H.2
+TH0	DATA	08CH
+EX0	BIT	0A8H.0
+IT0	BIT	088H.0
+TH1	DATA	08DH
+TB8	BIT	098H.3
+EX1	BIT	0A8H.2
+IT1	BIT	088H.2
+P	BIT	0D0H.0
+SM0	BIT	098H.7
+TL0	DATA	08AH
+SM1	BIT	098H.6
+TL1	DATA	08BH
+SM2	BIT	098H.5
+PT0	BIT	0B8H.1
+PT1	BIT	0B8H.3
+RS0	BIT	0D0H.3
+TR0	BIT	088H.4
+RS1	BIT	0D0H.4
+TR1	BIT	088H.6
+PX0	BIT	0B8H.0
+PX1	BIT	0B8H.2
+DPH	DATA	083H
+DPL	DATA	082H
+REN	BIT	098H.4
+RXD	BIT	0B0H.0
+TXD	BIT	0B0H.1
+F0	BIT	0D0H.5
+PSW	DATA	0D0H
+?PR?main?MAIN        SEGMENT CODE 
+	EXTRN	CODE (_print_byte)
+	EXTRN	CODE (init_lcd)
+	EXTRN	CODE (clear_screen)
+	EXTRN	CODE (?C_STARTUP)
+	PUBLIC	main
+; #include<reg51.h>
+; #include <intrins.h>  
+; #define byte unsigned char
+; /*****************************
+; extern
+; *****************************/
+; extern void clear_screen();
+; extern void init_lcd();
+; extern void print_byte(byte a,byte xdata *ptr);		   //²Õ»y°Æµ{¦¡ assembly subroutine
+; /*******************************/
+; void main(void)										
+
+	RSEG  ?PR?main?MAIN
+main:
+	USING	0
+			; SOURCE LINE # 11
+; {
+			; SOURCE LINE # 12
+; 	byte xdata *ptr;
+; 	init_lcd();
+			; SOURCE LINE # 14
+	LCALL	init_lcd
+; 	clear_screen();
+			; SOURCE LINE # 15
+	LCALL	clear_screen
+; 
+; 	ptr=900;
+			; SOURCE LINE # 17
+;---- Variable 'ptr?040' assigned to Register 'R4/R5' ----
+	MOV  	R5,#084H
+	MOV  	R4,#03H
+; 	print_byte(0x55,ptr);
+			; SOURCE LINE # 18
+	MOV  	R7,#055H
+	LCALL	_print_byte
+; 
+; 	for(;;)
+			; SOURCE LINE # 20
+?C0001:
+; 	{	
+			; SOURCE LINE # 21
+; 		_nop_();
+			; SOURCE LINE # 22
+	NOP  	
+; 	}
+			; SOURCE LINE # 23
+	SJMP 	?C0001
+; END OF main
+
+	END

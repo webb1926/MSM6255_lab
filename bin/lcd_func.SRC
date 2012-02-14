@@ -1,0 +1,206 @@
+; .\bin\lcd_func.SRC generated from: src\lcd_func.c
+; COMPILER INVOKED BY:
+;        C:\Keil\C51\BIN\C51.EXE src\lcd_func.c BROWSE DEBUG OBJECTEXTEND PRINT(.\lst\lcd_func.lst) TABS(2) SRC(.\bin\lcd_func.SRC)
+
+$NOMOD51
+
+NAME	LCD_FUNC
+
+P0	DATA	080H
+P1	DATA	090H
+P2	DATA	0A0H
+P3	DATA	0B0H
+T0	BIT	0B0H.4
+AC	BIT	0D0H.6
+T1	BIT	0B0H.5
+EA	BIT	0A8H.7
+IE	DATA	0A8H
+P3_2	BIT	0B0H.2
+RD	BIT	0B0H.7
+ES	BIT	0A8H.4
+IP	DATA	0B8H
+RI	BIT	098H.0
+INT0	BIT	0B0H.2
+CY	BIT	0D0H.7
+TI	BIT	098H.1
+INT1	BIT	0B0H.3
+PS	BIT	0B8H.4
+SP	DATA	081H
+OV	BIT	0D0H.2
+WR	BIT	0B0H.6
+SBUF	DATA	099H
+PCON	DATA	087H
+SCON	DATA	098H
+TMOD	DATA	089H
+TCON	DATA	088H
+red	BIT	090H.2
+IE0	BIT	088H.1
+IE1	BIT	088H.3
+B	DATA	0F0H
+ACC	DATA	0E0H
+ET0	BIT	0A8H.1
+ET1	BIT	0A8H.3
+TF0	BIT	088H.5
+TF1	BIT	088H.7
+RB8	BIT	098H.2
+TH0	DATA	08CH
+EX0	BIT	0A8H.0
+IT0	BIT	088H.0
+TH1	DATA	08DH
+TB8	BIT	098H.3
+EX1	BIT	0A8H.2
+IT1	BIT	088H.2
+P	BIT	0D0H.0
+SM0	BIT	098H.7
+TL0	DATA	08AH
+SM1	BIT	098H.6
+TL1	DATA	08BH
+SM2	BIT	098H.5
+PT0	BIT	0B8H.1
+PT1	BIT	0B8H.3
+RS0	BIT	0D0H.3
+TR0	BIT	088H.4
+RS1	BIT	0D0H.4
+TR1	BIT	088H.6
+PX0	BIT	0B8H.0
+PX1	BIT	0B8H.2
+DPH	DATA	083H
+DPL	DATA	082H
+REN	BIT	098H.4
+RXD	BIT	0B0H.0
+TXD	BIT	0B0H.1
+F0	BIT	0D0H.5
+PSW	DATA	0D0H
+?PR?print_byte1?LCD_FUNC                 SEGMENT CODE 
+	EXTRN	CODE (page_font)
+	EXTRN	CODE (sPanel)
+	PUBLIC	print_byte1
+; #include<reg51.h>
+; #define byte unsigned char
+; sbit P3_2	= P3^2;
+; sbit red = P1^2;
+; #define DIEN P3_2
+; 
+; extern unsigned char code page_font[];
+; extern unsigned char code sPanel[];
+; extern unsigned char ascii;
+; extern void print_byte(byte a,byte xdata *ptr);
+; void print_byte1()
+
+	RSEG  ?PR?print_byte1?LCD_FUNC
+print_byte1:
+	USING	0
+			; SOURCE LINE # 11
+; {
+			; SOURCE LINE # 12
+; 	unsigned char code * pfont;
+;   unsigned char xdata * plcd;
+; 	unsigned char in,out,ascii;
+; 	unsigned char x,y;
+; 	x=3;
+			; SOURCE LINE # 17
+;---- Variable 'x?045' assigned to Register 'R7' ----
+	MOV  	R7,#03H
+; 	y=6;
+			; SOURCE LINE # 18
+;---- Variable 'y?046' assigned to Register 'R6' ----
+	MOV  	R6,#06H
+; 	ascii = sPanel[1*80+y*10+x];			 //page1,row 3 , col 6
+			; SOURCE LINE # 19
+	MOV  	B,#0AH
+	MOV  	A,R6
+	MUL  	AB
+	ADD  	A,R7
+	MOV  	DPL,A
+	CLR  	A
+	ADDC 	A,B
+	MOV  	DPH,A
+	MOV  	A,DPL
+	ADD  	A,#LOW (sPanel+050H)
+	MOV  	DPL,A
+	MOV  	A,DPH
+	ADDC 	A,#HIGH (sPanel+050H)
+	MOV  	DPH,A
+	CLR  	A
+	MOVC 	A,@A+DPTR
+;---- Variable 'ascii?044' assigned to Register 'R7' ----
+; 
+; 	pfont = page_font+ascii*32*6;
+			; SOURCE LINE # 21
+	MOV  	B,#0C0H
+	MUL  	AB
+	ADD  	A,#LOW (page_font)
+	MOV  	DPL,A
+	MOV  	A,B
+	ADDC 	A,#HIGH (page_font)
+	MOV  	R7,DPL
+	MOV  	R6,A
+;---- Variable 'pfont?040' assigned to Register 'R6/R7' ----
+; 	plcd=0;
+			; SOURCE LINE # 22
+;---- Variable 'plcd?041' assigned to Register 'R4/R5' ----
+	CLR  	A
+	MOV  	R5,A
+	MOV  	R4,A
+; 	
+; 	for(out=0;out<32;out++)	
+			; SOURCE LINE # 24
+;---- Variable 'out?043' assigned to Register 'R3' ----
+	MOV  	R3,A
+?C0001:
+; 	{	
+			; SOURCE LINE # 25
+; 		for(in=0;in<6;in++)
+			; SOURCE LINE # 26
+;---- Variable 'in?042' assigned to Register 'R2' ----
+	CLR  	A
+	MOV  	R2,A
+?C0004:
+; 		{
+			; SOURCE LINE # 27
+; 			DIEN=0;
+			; SOURCE LINE # 28
+	CLR  	P3_2
+; 			
+; 		 	
+; 					plcd++;
+			; SOURCE LINE # 31
+	INC  	R5
+	CJNE 	R5,#00H,?C0008
+	INC  	R4
+?C0008:
+; 					pfont++;	
+			; SOURCE LINE # 32
+	INC  	R7
+	CJNE 	R7,#00H,?C0009
+	INC  	R6
+?C0009:
+; 		}		
+			; SOURCE LINE # 33
+	INC  	R2
+	CJNE 	R2,#06H,?C0004
+?C0005:
+; 		plcd+=80-6;	
+			; SOURCE LINE # 34
+	MOV  	A,#04AH
+	ADD  	A,R5
+	MOV  	R5,A
+	CLR  	A
+	ADDC 	A,R4
+	MOV  	R4,A
+; 	}
+			; SOURCE LINE # 35
+	INC  	R3
+	CJNE 	R3,#020H,?C0001
+?C0002:
+; 
+; 
+; 	DIEN=1;
+			; SOURCE LINE # 38
+	SETB 	P3_2
+; }
+			; SOURCE LINE # 39
+	RET  	
+; END OF print_byte1
+
+	END

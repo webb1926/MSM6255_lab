@@ -1,0 +1,314 @@
+A51 MACRO ASSEMBLER  LCD_FUNC                                                             02/14/2012 22:33:57 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02
+OBJECT MODULE PLACED IN .\bin\lcd_func.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE .\bin\lcd_func.src PR(.\lst\lcd_func.ls1) EP DEBUG
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     ; .\bin\lcd_func.SRC generated from: src\lcd_func.c
+                       2     ; COMPILER INVOKED BY:
+                       3     ;        C:\Keil\C51\BIN\C51.EXE src\lcd_func.c BROWSE DEBUG OBJECTEXTEND PRINT(.\lst\lcd_f
+                             unc.lst) TABS(2) SRC(.\bin\lcd_func.SRC)
+                       4     
+                       5     $nomod51 
+                       6     
+                       7     NAME    LCD_FUNC
+                       8     
+  0080                 9     P0      DATA    080H
+  0090                10     P1      DATA    090H
+  00A0                11     P2      DATA    0A0H
+  00B0                12     P3      DATA    0B0H
+  00B4                13     T0      BIT     0B0H.4
+  00D6                14     AC      BIT     0D0H.6
+  00B5                15     T1      BIT     0B0H.5
+  00AF                16     EA      BIT     0A8H.7
+  00A8                17     IE      DATA    0A8H
+  00B2                18     P3_2    BIT     0B0H.2
+  00B7                19     RD      BIT     0B0H.7
+  00AC                20     ES      BIT     0A8H.4
+  00B8                21     IP      DATA    0B8H
+  0098                22     RI      BIT     098H.0
+  00B2                23     INT0    BIT     0B0H.2
+  00D7                24     CY      BIT     0D0H.7
+  0099                25     TI      BIT     098H.1
+  00B3                26     INT1    BIT     0B0H.3
+  00BC                27     PS      BIT     0B8H.4
+  0081                28     SP      DATA    081H
+  00D2                29     OV      BIT     0D0H.2
+  00B6                30     WR      BIT     0B0H.6
+  0099                31     SBUF    DATA    099H
+  0087                32     PCON    DATA    087H
+  0098                33     SCON    DATA    098H
+  0089                34     TMOD    DATA    089H
+  0088                35     TCON    DATA    088H
+  0092                36     red     BIT     090H.2
+  0089                37     IE0     BIT     088H.1
+  008B                38     IE1     BIT     088H.3
+  00F0                39     B       DATA    0F0H
+  00E0                40     ACC     DATA    0E0H
+  00A9                41     ET0     BIT     0A8H.1
+  00AB                42     ET1     BIT     0A8H.3
+  008D                43     TF0     BIT     088H.5
+  008F                44     TF1     BIT     088H.7
+  009A                45     RB8     BIT     098H.2
+  008C                46     TH0     DATA    08CH
+  00A8                47     EX0     BIT     0A8H.0
+  0088                48     IT0     BIT     088H.0
+  008D                49     TH1     DATA    08DH
+  009B                50     TB8     BIT     098H.3
+  00AA                51     EX1     BIT     0A8H.2
+  008A                52     IT1     BIT     088H.2
+  00D0                53     P       BIT     0D0H.0
+  009F                54     SM0     BIT     098H.7
+  008A                55     TL0     DATA    08AH
+  009E                56     SM1     BIT     098H.6
+  008B                57     TL1     DATA    08BH
+A51 MACRO ASSEMBLER  LCD_FUNC                                                             02/14/2012 22:33:57 PAGE     2
+
+  009D                58     SM2     BIT     098H.5
+  00B9                59     PT0     BIT     0B8H.1
+  00BB                60     PT1     BIT     0B8H.3
+  00D3                61     RS0     BIT     0D0H.3
+  008C                62     TR0     BIT     088H.4
+  00D4                63     RS1     BIT     0D0H.4
+  008E                64     TR1     BIT     088H.6
+  00B8                65     PX0     BIT     0B8H.0
+  00BA                66     PX1     BIT     0B8H.2
+  0083                67     DPH     DATA    083H
+  0082                68     DPL     DATA    082H
+  009C                69     REN     BIT     098H.4
+  00B0                70     RXD     BIT     0B0H.0
+  00B1                71     TXD     BIT     0B0H.1
+  00D5                72     F0      BIT     0D0H.5
+  00D0                73     PSW     DATA    0D0H
+                      74     ?PR?print_byte1?LCD_FUNC                 SEGMENT CODE 
+                      75             EXTRN   CODE (page_font)
+                      76             EXTRN   CODE (sPanel)
+                      77             PUBLIC  print_byte1
+                      78     ; #include<reg51.h>
+                      79     ; #define byte unsigned char
+                      80     ; sbit P3_2     = P3^2;
+                      81     ; sbit red = P1^2;
+                      82     ; #define DIEN P3_2
+                      83     ; 
+                      84     ; extern unsigned char code page_font[];
+                      85     ; extern unsigned char code sPanel[];
+                      86     ; extern unsigned char ascii;
+                      87     ; extern void print_byte(byte a,byte xdata *ptr);
+                      88     ; void print_byte1()
+                      89     
+----                  90             RSEG  ?PR?print_byte1?LCD_FUNC
+0000                  91     print_byte1:
+                      92             USING   0
+                      93                             ; SOURCE LINE # 11
+                      94     ; {
+                      95                             ; SOURCE LINE # 12
+                      96     ;       unsigned char code * pfont;
+                      97     ;   unsigned char xdata * plcd;
+                      98     ;       unsigned char in,out,ascii;
+                      99     ;       unsigned char x,y;
+                     100     ;       x=3;
+                     101                             ; SOURCE LINE # 17
+                     102     ;---- Variable 'x?045' assigned to Register 'R7' ----
+0000 7F03            103             MOV     R7,#03H
+                     104     ;       y=6;
+                     105                             ; SOURCE LINE # 18
+                     106     ;---- Variable 'y?046' assigned to Register 'R6' ----
+0002 7E06            107             MOV     R6,#06H
+                     108     ;       ascii = sPanel[1*80+y*10+x];                     //page1,row 3 , col 6
+                     109                             ; SOURCE LINE # 19
+0004 75F00A          110             MOV     B,#0AH
+0007 EE              111             MOV     A,R6
+0008 A4              112             MUL     AB
+0009 2F              113             ADD     A,R7
+000A F582            114             MOV     DPL,A
+000C E4              115             CLR     A
+000D 35F0            116             ADDC    A,B
+000F F583            117             MOV     DPH,A
+0011 E582            118             MOV     A,DPL
+0013 2400     F      119             ADD     A,#LOW (sPanel+050H)
+0015 F582            120             MOV     DPL,A
+0017 E583            121             MOV     A,DPH
+0019 3400     F      122             ADDC    A,#HIGH (sPanel+050H)
+001B F583            123             MOV     DPH,A
+A51 MACRO ASSEMBLER  LCD_FUNC                                                             02/14/2012 22:33:57 PAGE     3
+
+001D E4              124             CLR     A
+001E 93              125             MOVC    A,@A+DPTR
+                     126     ;---- Variable 'ascii?044' assigned to Register 'R7' ----
+                     127     ; 
+                     128     ;       pfont = page_font+ascii*32*6;
+                     129                             ; SOURCE LINE # 21
+001F 75F0C0          130             MOV     B,#0C0H
+0022 A4              131             MUL     AB
+0023 2400     F      132             ADD     A,#LOW (page_font)
+0025 F582            133             MOV     DPL,A
+0027 E5F0            134             MOV     A,B
+0029 3400     F      135             ADDC    A,#HIGH (page_font)
+002B AF82            136             MOV     R7,DPL
+002D FE              137             MOV     R6,A
+                     138     ;---- Variable 'pfont?040' assigned to Register 'R6/R7' ----
+                     139     ;       plcd=0;
+                     140                             ; SOURCE LINE # 22
+                     141     ;---- Variable 'plcd?041' assigned to Register 'R4/R5' ----
+002E E4              142             CLR     A
+002F FD              143             MOV     R5,A
+0030 FC              144             MOV     R4,A
+                     145     ;       
+                     146     ;       for(out=0;out<32;out++) 
+                     147                             ; SOURCE LINE # 24
+                     148     ;---- Variable 'out?043' assigned to Register 'R3' ----
+0031 FB              149             MOV     R3,A
+0032                 150     ?C0001:
+                     151     ;       {       
+                     152                             ; SOURCE LINE # 25
+                     153     ;               for(in=0;in<6;in++)
+                     154                             ; SOURCE LINE # 26
+                     155     ;---- Variable 'in?042' assigned to Register 'R2' ----
+0032 E4              156             CLR     A
+0033 FA              157             MOV     R2,A
+0034                 158     ?C0004:
+                     159     ;               {
+                     160                             ; SOURCE LINE # 27
+                     161     ;                       DIEN=0;
+                     162                             ; SOURCE LINE # 28
+0034 C2B2            163             CLR     P3_2
+                     164     ;                       
+                     165     ;                       
+                     166     ;                                       plcd++;
+                     167                             ; SOURCE LINE # 31
+0036 0D              168             INC     R5
+0037 BD0001          169             CJNE    R5,#00H,?C0008
+003A 0C              170             INC     R4
+003B                 171     ?C0008:
+                     172     ;                                       pfont++;        
+                     173                             ; SOURCE LINE # 32
+003B 0F              174             INC     R7
+003C BF0001          175             CJNE    R7,#00H,?C0009
+003F 0E              176             INC     R6
+0040                 177     ?C0009:
+                     178     ;               }               
+                     179                             ; SOURCE LINE # 33
+0040 0A              180             INC     R2
+0041 BA06F0          181             CJNE    R2,#06H,?C0004
+0044                 182     ?C0005:
+                     183     ;               plcd+=80-6;     
+                     184                             ; SOURCE LINE # 34
+0044 744A            185             MOV     A,#04AH
+0046 2D              186             ADD     A,R5
+0047 FD              187             MOV     R5,A
+0048 E4              188             CLR     A
+0049 3C              189             ADDC    A,R4
+A51 MACRO ASSEMBLER  LCD_FUNC                                                             02/14/2012 22:33:57 PAGE     4
+
+004A FC              190             MOV     R4,A
+                     191     ;       }
+                     192                             ; SOURCE LINE # 35
+004B 0B              193             INC     R3
+004C BB20E3          194             CJNE    R3,#020H,?C0001
+004F                 195     ?C0002:
+                     196     ; 
+                     197     ; 
+                     198     ;       DIEN=1;
+                     199                             ; SOURCE LINE # 38
+004F D2B2            200             SETB    P3_2
+                     201     ; }
+                     202                             ; SOURCE LINE # 39
+0051 22              203             RET     
+                     204     ; END OF print_byte1
+                     205     
+                     206             END
+A51 MACRO ASSEMBLER  LCD_FUNC                                                             02/14/2012 22:33:57 PAGE     5
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E                   T Y P E  V A L U E   ATTRIBUTES
+
+?C0001 . . . . . . . . .  C ADDR   0032H   R   SEG=?PR?PRINT_BYTE1?LCD_FUNC
+?C0002 . . . . . . . . .  C ADDR   004FH   R   SEG=?PR?PRINT_BYTE1?LCD_FUNC
+?C0004 . . . . . . . . .  C ADDR   0034H   R   SEG=?PR?PRINT_BYTE1?LCD_FUNC
+?C0005 . . . . . . . . .  C ADDR   0044H   R   SEG=?PR?PRINT_BYTE1?LCD_FUNC
+?C0008 . . . . . . . . .  C ADDR   003BH   R   SEG=?PR?PRINT_BYTE1?LCD_FUNC
+?C0009 . . . . . . . . .  C ADDR   0040H   R   SEG=?PR?PRINT_BYTE1?LCD_FUNC
+?PR?PRINT_BYTE1?LCD_FUNC  C SEG    0052H       REL=UNIT
+AC . . . . . . . . . . .  B ADDR   00D0H.6 A   
+ACC. . . . . . . . . . .  D ADDR   00E0H   A   
+B. . . . . . . . . . . .  D ADDR   00F0H   A   
+CY . . . . . . . . . . .  B ADDR   00D0H.7 A   
+DPH. . . . . . . . . . .  D ADDR   0083H   A   
+DPL. . . . . . . . . . .  D ADDR   0082H   A   
+EA . . . . . . . . . . .  B ADDR   00A8H.7 A   
+ES . . . . . . . . . . .  B ADDR   00A8H.4 A   
+ET0. . . . . . . . . . .  B ADDR   00A8H.1 A   
+ET1. . . . . . . . . . .  B ADDR   00A8H.3 A   
+EX0. . . . . . . . . . .  B ADDR   00A8H.0 A   
+EX1. . . . . . . . . . .  B ADDR   00A8H.2 A   
+F0 . . . . . . . . . . .  B ADDR   00D0H.5 A   
+IE . . . . . . . . . . .  D ADDR   00A8H   A   
+IE0. . . . . . . . . . .  B ADDR   0088H.1 A   
+IE1. . . . . . . . . . .  B ADDR   0088H.3 A   
+INT0 . . . . . . . . . .  B ADDR   00B0H.2 A   
+INT1 . . . . . . . . . .  B ADDR   00B0H.3 A   
+IP . . . . . . . . . . .  D ADDR   00B8H   A   
+IT0. . . . . . . . . . .  B ADDR   0088H.0 A   
+IT1. . . . . . . . . . .  B ADDR   0088H.2 A   
+LCD_FUNC . . . . . . . .  N NUMB   -----       
+OV . . . . . . . . . . .  B ADDR   00D0H.2 A   
+P. . . . . . . . . . . .  B ADDR   00D0H.0 A   
+P0 . . . . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . . . . .  D ADDR   0090H   A   
+P2 . . . . . . . . . . .  D ADDR   00A0H   A   
+P3 . . . . . . . . . . .  D ADDR   00B0H   A   
+P3_2 . . . . . . . . . .  B ADDR   00B0H.2 A   
+PAGE_FONT. . . . . . . .  C ADDR   -----       EXT
+PCON . . . . . . . . . .  D ADDR   0087H   A   
+PRINT_BYTE1. . . . . . .  C ADDR   0000H   R   SEG=?PR?PRINT_BYTE1?LCD_FUNC
+PS . . . . . . . . . . .  B ADDR   00B8H.4 A   
+PSW. . . . . . . . . . .  D ADDR   00D0H   A   
+PT0. . . . . . . . . . .  B ADDR   00B8H.1 A   
+PT1. . . . . . . . . . .  B ADDR   00B8H.3 A   
+PX0. . . . . . . . . . .  B ADDR   00B8H.0 A   
+PX1. . . . . . . . . . .  B ADDR   00B8H.2 A   
+RB8. . . . . . . . . . .  B ADDR   0098H.2 A   
+RD . . . . . . . . . . .  B ADDR   00B0H.7 A   
+RED. . . . . . . . . . .  B ADDR   0090H.2 A   
+REN. . . . . . . . . . .  B ADDR   0098H.4 A   
+RI . . . . . . . . . . .  B ADDR   0098H.0 A   
+RS0. . . . . . . . . . .  B ADDR   00D0H.3 A   
+RS1. . . . . . . . . . .  B ADDR   00D0H.4 A   
+RXD. . . . . . . . . . .  B ADDR   00B0H.0 A   
+SBUF . . . . . . . . . .  D ADDR   0099H   A   
+SCON . . . . . . . . . .  D ADDR   0098H   A   
+SM0. . . . . . . . . . .  B ADDR   0098H.7 A   
+SM1. . . . . . . . . . .  B ADDR   0098H.6 A   
+SM2. . . . . . . . . . .  B ADDR   0098H.5 A   
+SP . . . . . . . . . . .  D ADDR   0081H   A   
+SPANEL . . . . . . . . .  C ADDR   -----       EXT
+A51 MACRO ASSEMBLER  LCD_FUNC                                                             02/14/2012 22:33:57 PAGE     6
+
+T0 . . . . . . . . . . .  B ADDR   00B0H.4 A   
+T1 . . . . . . . . . . .  B ADDR   00B0H.5 A   
+TB8. . . . . . . . . . .  B ADDR   0098H.3 A   
+TCON . . . . . . . . . .  D ADDR   0088H   A   
+TF0. . . . . . . . . . .  B ADDR   0088H.5 A   
+TF1. . . . . . . . . . .  B ADDR   0088H.7 A   
+TH0. . . . . . . . . . .  D ADDR   008CH   A   
+TH1. . . . . . . . . . .  D ADDR   008DH   A   
+TI . . . . . . . . . . .  B ADDR   0098H.1 A   
+TL0. . . . . . . . . . .  D ADDR   008AH   A   
+TL1. . . . . . . . . . .  D ADDR   008BH   A   
+TMOD . . . . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . . . . .  B ADDR   0088H.4 A   
+TR1. . . . . . . . . . .  B ADDR   0088H.6 A   
+TXD. . . . . . . . . . .  B ADDR   00B0H.1 A   
+WR . . . . . . . . . . .  B ADDR   00B0H.6 A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

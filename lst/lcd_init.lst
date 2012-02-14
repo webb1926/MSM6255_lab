@@ -1,0 +1,111 @@
+C51 COMPILER V9.02   LCD_INIT                                                              02/14/2012 22:33:57 PAGE 1   
+
+
+C51 COMPILER V9.02, COMPILATION OF MODULE LCD_INIT
+NO OBJECT MODULE REQUESTED
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE src\lcd_init.c BROWSE DEBUG OBJECTEXTEND PRINT(.\lst\lcd_init.lst) TABS(2) 
+                    -SRC(.\bin\lcd_init.SRC)
+
+line level    source
+
+   1          #include<reg51.h>
+   2          #define byte unsigned char
+   3          sbit P3_2 = P3^2;
+   4          #define DIEN P3_2
+   5          int idata IR_value,PR_value;
+   6          byte xdata lcdc_addr _at_ 0x01; // used to send command
+   7          byte xdata lcdc_data _at_ 0x00; // used to send command parameter
+   8          
+   9          unsigned char xdata *ptr = 0x00;
+  10          
+  11          void init_lcd();
+  12          void setReg(int a,int b);
+  13          void clear_screen();
+  14          /**********************************************************************************
+  15            設定msm6255暫存器的函數
+  16          **********************************************************************************/
+  17          void setReg(int a,int b)
+  18          {
+  19   1        DIEN = 1;
+  20   1        P1=0xF4;  
+  21   1        lcdc_addr=a;  
+  22   1        lcdc_data=b;
+  23   1      }
+  24          /**********************************************************************************
+  25            初始化msm6255
+  26            by external memory address 0x00 and 0x01 (2011/11/3  comment by Lu)
+  27          **********************************************************************************/
+  28          void init_lcd()
+  29          {
+  30   1      
+  31   1        P3=0xFF;  
+  32   1        P1=0xF4;
+  33   1      
+  34   1        IR_value=0x00;  //MR      
+  35   1        PR_value=0x1B;
+  36   1        setReg(IR_value,PR_value);
+  37   1        IR_value=0x01;  //RR  
+  38   1        PR_value=0x07;
+  39   1        setReg(IR_value,PR_value);
+  40   1        IR_value=0x02;  //HNR 
+  41   1        PR_value=79;    //80bytes = 640
+  42   1        setReg(IR_value,PR_value);
+  43   1        IR_value=0x03;  //DVR   
+  44   1        PR_value=239;   //239 = 2*240 = 480
+  45   1        setReg(IR_value,PR_value);
+  46   1        IR_value=0x04;  //    
+  47   1        PR_value=0x11;  //1-1
+  48   1        setReg(IR_value,PR_value);
+  49   1        IR_value=0x05;  //SLR   
+  50   1        PR_value=0x00;
+  51   1        setReg(IR_value,PR_value);
+  52   1        IR_value=0x06;  //SUR   
+  53   1        PR_value=0x00;
+  54   1        setReg(IR_value,PR_value);
+C51 COMPILER V9.02   LCD_INIT                                                              02/14/2012 22:33:57 PAGE 2   
+
+  55   1        IR_value=0x07;  //CLR   
+  56   1        PR_value=0x00;
+  57   1        setReg(IR_value,PR_value);
+  58   1        IR_value=0x08;  //CUR 
+  59   1        PR_value=0x00;
+  60   1        setReg(IR_value,PR_value);
+  61   1      
+  62   1        P1=0xF4;                  
+  63   1      }
+  64          
+  65          void clear_screen()
+  66          {
+  67   1          
+  68   1        //unsigned int idata i; 
+  69   1        //ptr=0;  
+  70   1        #pragma asm
+  71   1        mov P1,#0f4h
+  72   1        mov R2,#150
+  73   1        mov R1,#0
+  74   1        MOV a,#0ffh
+  75   1        mov dptr,#0
+  76   1        CLRSCN:
+  77   1        CLR P3.2
+  78   1        movx @dptr,a
+  79   1        ;
+  80   1        inc dptr
+  81   1        djnz r2,CLRSCN
+  82   1        djnz r1,CLRSCN
+  83   1        SETB P3.2
+  84   1        #pragma endasm
+  85   1      } 
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    214    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2    ----
+   IDATA SIZE       =      4    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

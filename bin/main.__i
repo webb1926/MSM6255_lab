@@ -1,0 +1,1 @@
+"src\main.c" BROWSE DEBUG OBJECTEXTEND PRINT(.\lst\main.lst) TABS (2) SRC (.\bin\main.SRC)

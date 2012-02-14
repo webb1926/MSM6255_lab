@@ -1,0 +1,47 @@
+NAME LCD
+;定義function的code segment名稱
+?PR?FUNCTION?LCD	SEGMENT CODE
+		RSEG 	?PR?FUNCTION?LCD
+;定義function的data segment名稱
+;?DT?FUNCTION?LCD 	SEGMENT DATA OVERLAYABLE
+;		RSEG 	?DT?FUNCTION?LCD
+;Var_a	DS	2	;長度2byte的var_a(就是c中的int)
+;Var_b	DS	1	;char
+;定義function的bit segment名稱
+;?BI?FUNCTION?LCD 	SEGMENT BIT OVERLAYABLE
+;		RSEG 	?BI?FUNCTION?MODULE
+;Var_c	DBIT	1	;bit var_c
+;Var_d	DBIT	1	;bit var_d
+;定義可讓c呼叫的function
+PUBLIC	_print_byte	;沒有引入參數
+;PUBLIC	_functionName	;有引入參數
+;組語中要用到c的function時，要作下列宣告
+;EXTERN CODE (_function)
+
+		RSEG	?PR?FUNCTION?LCD
+	        USING 0
+_print_byte:	mov 	a,r7	;r7 , r4r5
+		;mov	a,r1
+		mov	dph,r4
+		mov	dpl,r5
+		
+		clr	P3.2
+		;mov	a,#000h
+		movx	@dptr,a
+		
+		inc	dptr
+
+		clr	P3.2
+		;mov	a,#0f0h
+		movx	@dptr,a
+		inc	dptr
+
+		clr	P3.2
+		;mov	a,#0f0h
+		movx	@dptr,a
+
+		setb	P3.2
+		ret
+END	
+
+
